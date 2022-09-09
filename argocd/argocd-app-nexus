@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: 	nexus-rm-nexus-repository-manager
+  # You'll usually want to add your resources to the argocd namespace.
+  namespace: default
+  # Add a this finalizer ONLY if you want these to cascade delete.
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  # The project the application belongs to.
+  project: java-test
+
+  # Source of the application manifests
+  source:
+    repoURL: https://github.com/belouerg-tmx/java-test.git
+    targetRevision: master
+    path: nexus-repo-manager
+
+    # kustomize specific config
+    #kustomize:
+      # Optional kustomize version. Note: version must be configured in argocd-cm ConfigMap
+      #version: v3.5.4
+      # Optional image name prefix
+      #namePrefix: prod-
+      # Optional images passed to "kustomize edit set image".
+      #images:
+      #- gcr.io/heptio-images/ks-guestbook-demo:0.2
+
+
+  # Destination cluster and namespace to deploy the application
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  # Sync policy
+  syncPolicy:
+    syncOptions:     # Sync options which modifies sync behavior
+    - Validate=false # disables resource validation (equivalent to 'kubectl apply --validate=false') ( true by default ).
+    - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
+    # The retry feature is available since v1.7
+    retry:
+      limit: 5 # number of failed sync attempt retries; unlimited number of attempts if less than 0
+      backoff:
+        duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+        factor: 2 # a factor to multiply the base duration after each failed retry
+        maxDuration: 3m # the maximum amount of time allowed for the backoff strategy
+#
+  # Ignore differences at the specified json pointers
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/replicas
