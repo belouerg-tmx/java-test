@@ -1,3 +1,2 @@
 resources:
   - https://github.com/belouerg-tmx/java-test.git/nexus-repo-manager?ref=master
-  - service-account.yaml
