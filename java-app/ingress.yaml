@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nginx-ingress
+  name: java-ingress
   annotations:
     {}
 #    key: string
@@ -11,7 +11,7 @@ metadata:
   namespace: default
 spec:
   rules:
-    - host: www.nginx.ctt
+    - host: www.java-test.ctt
       http:
         paths:
           - backend:
@@ -20,7 +20,7 @@ spec:
 #                kind: string
 #                name: string
               service:
-                name: nginx-service
+                name: java-service
                 port:
                   name: http
 
