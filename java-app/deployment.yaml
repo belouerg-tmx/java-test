@@ -1,21 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: java-deployment
+  name: java-test-deployment
+  namespace: default
   labels:
-    app: java
+    app: java-test
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: java
+      app: java-test
   template:
     metadata:
       labels:
-        app: java
+        app: java-test
     spec:
       containers:
-      - name: java
+      - name: java-test
         image: java-test
         ports:
         - containerPort: 80
