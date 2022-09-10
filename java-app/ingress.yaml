@@ -1,14 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: java-ingress
-  annotations:
-    {}
-#    key: string
-  labels:
-    {}
-#    key: string
+  name: java-test-ingress
   namespace: default
+  
 spec:
   rules:
     - host: www.java-test.ctt
@@ -26,24 +21,3 @@ spec:
 
             path: /
             pathType: ImplementationSpecific
-  tls:
-#    - hosts:
-#        - string
-#      secretName: string
-  backend:
-    {}
-#  defaultBackend:
-#    resource:
-#      apiGroup: string
-#      kind: string
-#      name: string
-#    service:
-#      name: string
-#      port:
-#        name: string
-#        number: int
-#  ingressClassName: string
-__clone: true
-cacheObject:
-  useNestedBackendField: true
-  showPathType: true
