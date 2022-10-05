@@ -16,7 +16,7 @@ spec:
   source:
     repoURL: https://github.com/belouerg-tmx/java-test.git
     targetRevision: master
-    path: nexus-repo-manager
+    path: java-app
 
     # kustomize specific config
     #kustomize:
