@@ -1,1 +1,139 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: argocd
+  namespace: default
+  # Finalizer that ensures that project is not deleted until it is not referenced by any application
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+
+
+  # Allow manifests to deploy from any Git repos
+  sourceRepos:
+  - '*'
+
+  # Only permit applications to deploy to the guestbook namespace in the same cluster
+  destinations:
+  - namespace: default
+    server: https://kubernetes.default.svc
+
+
+
+  # Deny all cluster-scoped resources from being created, except for Namespace
+  clusterResourceWhitelist:
+  - group: ''
+    kind: Namespace
+  - group: '*' 
+    kind:  PersistentVolume
+  - group: '*'
+    kind: ClusterRole
+  - group: '*'
+    kind: ClusterRoleBinding
+  - group: '*' 
+    kind: CustomResourceDefinition
+  - group: '*'
+    kind: PodSecurityPolicy
+  - group: '*'
+    kind: APIService
+  - group: '*'
+    kind: MutatingWebhookConfiguration
+  - group: '*'
+    kind: ValidatingWebhookConfiguration
+  - group: '*'
+    kind: EnvoyFilter
+  - group: '*'
+    kind: ConfigMap
+  - group: '*'
+    kind: ServiceMonitor
+  - group: '*'
+    kind: ClusterInput
+  - group: '*'
+    kind: Issuer
+  - group: '*'
+    kind: ClusterOutput
+  - group: '*'
+    kind: StorageClass
+  - group: '*'
+    kind: Endpoints
+ 
+  # Allow all namespaced-scoped resources to be created, except for ResourceQuota, LimitRange, NetworkPolicy
+  namespaceResourceBlacklist:
+  - group: ''
+    kind: ResourceQuota
+  - group: ''
+    kind: LimitRange
+  - group: ''
+    kind: NetworkPolicy
+
+
+  # Deny all namespaced-scoped resources from being created, except for Deployment and StatefulSet
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  - group: 'apps'
+    kind: Deployment
+  - group: 'apps'
+    kind: StatefulSet
+  - group: '*' 
+    kind:  Secret
+  - group: '*' 
+    kind:  RoleBinding
+  - group: '*' 
+    kind:  Role
+  - group: '*' 
+    kind:  Service
+  - group: '*' 
+    kind:  Ingress
+  - group: '*' 
+    kind:  ConfigMap
+  - group: '*' 
+    kind:  PersistentVolumeClaim
+  - group: '*' 
+    kind: Kiali
+  - group: '*' 
+    kind: ServiceAccount
+  - group: '*' 
+    kind: Application
+  - group: '*' 
+    kind: AppProject
+  - group: '*'
+    kind: Prometheus
+  - group: '*'
+    kind: Issuer
+  - group: '*'
+    kind: CustomResourceDefinition
+  - group: 'servicemonitors.monitoring.coreos.com'
+    kind: CustomResourceDefinition
+  - group: 'prometheuses.monitoring.coreos.com'
+    kind: CustomResourceDefinition
+  - group: 'alertmanagers.monitoring.coreos.com'
+    kind: DaemonSet
+  - group: 'apiregistration.k8s.io/v1:x'
+    kind: APIService
+  - group: '*'
+    kind: EnvoyFilter
+  - group: '*'
+    kind: HorizontalPodAutoscaler
+  - group: '*'
+    kind: PodDisruptionBudget
+  - group: '*'
+    kind: MutatingWebhookConfiguration
+  - group: '*'
+    kind: ValidatingWebhookConfiguration
+  - group: '*'
+    kind: Namespace 
+  - group: '*'
+    kind: IngressClass
+  - group: '*'
+    kind: job
+  - group: '*'
+    kind: ServiceMonitor
+  - group: '*'
+    kind: ClusterInput
+  - group: '*'
+    kind: ClusterOutput
+  - group: '*'
+    kind: Endpoints
 
